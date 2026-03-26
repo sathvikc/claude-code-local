@@ -20,7 +20,6 @@ import mlx.nn as nn
 from mlx_lm.utils import load
 from mlx_lm.generate import stream_generate
 from mlx_lm.sample_utils import make_sampler
-from mlx_lm.models.cache import make_prompt_cache, KVCache
 
 # ─── Configuration ───────────────────────────────────────────────────────────
 
@@ -35,10 +34,6 @@ DEFAULT_MAX_TOKENS = int(os.environ.get("MLX_MAX_TOKENS", "8192"))
 model = None
 tokenizer = None
 generate_lock = threading.Lock()
-
-# Prompt cache: stores (token_hash, cache_state) for reuse
-_prompt_cache = {}
-_prompt_cache_lock = threading.Lock()
 
 
 # ─── Logging ─────────────────────────────────────────────────────────────────
