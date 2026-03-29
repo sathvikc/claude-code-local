@@ -209,26 +209,49 @@ claude --model claude-sonnet-4-6
 └──────────────────────────────────────────────────┘
 ```
 
-The server (`proxy/server.py`) is **one file, ~200 lines**. It does three things:
+The server (`proxy/server.py`) is **one file, ~600 lines**. It does four things:
 
 1. 📦 **Loads the model** — Apple's MLX framework, native Metal GPU, unified memory
 2. 🔌 **Speaks Anthropic API** — Claude Code thinks it's talking to Anthropic's cloud. It's not.
-3. 🧹 **Cleans the output** — Qwen thinks out loud in `<think>` tags. We strip those.
+3. 🔧 **Translates tool use** — Converts Anthropic tool definitions ↔ Qwen's native format, parses `<tool_call>` tags back into Anthropic `tool_use` blocks
+4. 🧹 **Cleans the output** — Qwen thinks out loud in `<think>` tags. We strip those.
 
 ---
 
-## 🌐 Browser Control
+## 🌐 Browser Agent
 
-Claude Code can control your **real web browser** — not a sandbox. Your actual browser with all your logins. 🔓
+A standalone browser agent (`agent.py`) that controls your **real Brave browser** via Chrome DevTools Protocol — powered entirely by local AI. No Claude Code wrapper needed.
 
-| | 🟢 Chrome DevTools (CDP) | 🔵 Playwright |
+```
+         📝 Your task
+          │
+     🤖 agent.py              ← autonomous browser agent
+          │
+     ⚡ MLX Server (Qwen 122B) ← local AI decides what to do
+          │
+     🌐 Brave (CDP port 9222) ← clicks, types, navigates your real browser
+          │
+     📊 Context Meter          ← shows memory usage so you know its limits
+```
+
+**Context memory pipeline** — the agent doesn't forget what it's doing:
+
+| | 🐌 Old Behavior | 🚀 New Pipeline |
 |---|---|---|
-| **Controls** | Your real Brave/Chrome | Separate sandboxed browser |
-| **Logged in?** | ✅ All your sessions | ❌ Starts fresh |
-| **Speed** | ⚡ Fast | 🐌 Slower |
-| **Best for** | Daily tasks | Automated jobs |
+| **Memory** | Hard drop after 5 steps | Smart trim at 60% of 32K budget |
+| **When trimming** | Deletes old steps entirely | Compresses into summary |
+| **Original task** | Lost after step 6+ | Re-injected every cycle |
+| **Visibility** | None — flying blind | Color-coded context meter |
+| **Response tokens** | 1,024 | 2,048 |
 
-> 💡 **Example:** "Go to my GitHub and check which PRs need review" — it opens your actual browser, already logged in, and does it. No re-authenticating. Ever.
+The context meter shows green/yellow/red after each step:
+```
+  Step 5 snapshot() 2.2s
+         → [101] heading "The Best Coffee Cake Recipe"...
+  [Context: 18% ████░░░░░░░░░░░░░░░░ 6K/32K tokens]    ← green = plenty of room
+```
+
+> 💡 **Double-click** `Browser Agent.command` to launch. It starts the MLX server, opens Brave with remote debugging, and drops you into the agent.
 
 ---
 
@@ -250,10 +273,11 @@ Claude Code can control your **real web browser** — not a sandbox. Your actual
 ```
 📦 claude-code-local/
  ├── ⚡ proxy/
- │   └── server.py              ← The entire server. 200 lines. This IS the project.
+ │   └── server.py              ← MLX server with Anthropic API + tool use (~600 lines)
+ ├── 🌐 agent.py                ← Standalone browser agent with context memory pipeline
  ├── 🚀 launchers/
- │   ├── Claude Local.command    ← Double-click to start everything
- │   └── Browser Agent.command   ← Double-click for browser control
+ │   ├── Claude Local.command    ← Double-click to start Claude Code locally
+ │   └── Browser Agent.command   ← Double-click for autonomous browser control
  ├── 🛠️ scripts/
  │   ├── download-and-import.sh  ← Download models
  │   ├── persistent-download.sh  ← Auto-retry downloader
