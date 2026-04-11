@@ -584,17 +584,38 @@ This setup doesn't die. **Apple's on-device speech engine is a fully local model
 
 ### How to wire it up
 
-> 🛠️ **The listening stack lives in its own folder.** The `Listen.swift` binary, the `dictation` / `dispatch` / `inject` scripts, and the `NarrativeClaude.app` launcher all live at `~/NarrateClaude/` — **a sibling project to `claude-code-local`**, not bundled inside it. Same design as the browser agent: one repo per focused tool, so edits don't drift between a vendored copy and the real source of truth.
+> 🛠️ **The listening stack lives in its own repo.** The `Listen.swift` binary, the `dictation` / `dispatch` / `inject` scripts, and the `narrative-claude.sh` launcher are **a sibling project**: [`nicedreamzapp/NarrateClaude`](https://github.com/nicedreamzapp/NarrateClaude). Same design as the browser agent: one repo per focused tool, so edits don't drift between a vendored copy and the real source of truth.
 
-The `claude-code-local` side is the part that runs the model and speaks replies:
+### The two halves of the loop, and where each half lives
 
+**🗣️ The speak-and-think half (this repo, `claude-code-local`):**
 - `launchers/Narrative Gemma.command` — boots the MLX server with Gemma 4 31B and injects the narration persona via `MLX_APPEND_SYSTEM_PROMPT_FILE` so Gemma narrates every turn
 - `NarrativeGemma/CLAUDE.md` — the narration persona itself (opt-in, sanitized, generic)
 - `~/.local/bin/speak` — your chosen TTS CLI (Matt uses Pocket TTS with a cloned voice; `say "$@"` works as a three-line stub if you don't have a fancier setup)
 
-The `NarrateClaude` side is the listening pipeline (Swift binary + dispatch scripts + target-window injection). It's not yet published as a public repo — I want to clean up the build steps first. If you want to try it before that, open an issue and I'll share the source.
+**🎧 The listen-and-inject half ([`NarrateClaude`](https://github.com/nicedreamzapp/NarrateClaude), sibling repo):**
+- A compiled Swift binary wrapping Apple's `SFSpeechRecognizer` in continuous-listen mode with stability-based end-of-utterance detection and wedge-recovery
+- A bash dispatch pipeline that respawns the listener, watches the target Terminal window, and tears everything down cleanly when you close the session
+- An AppleScript injector that writes transcribed utterances straight into the bound Terminal tab by window ID
+- A `narrative-claude.sh` one-click launcher that opens the Terminal, starts Claude Code, captures the window ID, and starts the listener
 
-> 💡 **Double-click** `Narrative Gemma.command` to launch the model-and-speak side standalone (keyboard in, voice out). Double-click `NarrativeClaude.app` (once it's installed from the sibling repo) to launch the full hands-free loop (voice in, voice out, no keyboard).
+### Running the full hands-free loop
+
+```bash
+# 1. Install this repo (claude-code-local) — gives you the MLX server + Narrative launcher
+git clone https://github.com/nicedreamzapp/claude-code-local.git "~/Desktop/Local AI Setup"
+cd "~/Desktop/Local AI Setup" && bash setup.sh
+
+# 2. Install the sibling NarrateClaude repo — gives you the listening pipeline
+git clone https://github.com/nicedreamzapp/NarrateClaude.git ~/NarrateClaude
+cd ~/NarrateClaude && chmod +x dictation/bin/* narrative-claude.sh
+./dictation/bin/dictation setup   # compiles the Swift listener + grants permissions
+
+# 3. Launch the full loop
+bash ~/NarrateClaude/narrative-claude.sh
+```
+
+> 💡 **Double-click** `Narrative Gemma.command` from this repo to run the model-and-speak side standalone (keyboard in, voice out — useful when you don't want to be on mic). **Run `narrative-claude.sh`** from the NarrateClaude repo to launch the full hands-free loop (voice in, voice out, no keyboard at all).
 
 ---
 
