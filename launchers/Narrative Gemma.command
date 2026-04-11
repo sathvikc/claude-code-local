@@ -11,10 +11,11 @@
 #   your speakers. Stub it with `say "$@"` (macOS built-in) if you don't
 #   have a fancier voice setup. The CLAUDE.md persona expects this binary.
 
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+source "$SCRIPT_DIR/lib/claude-local-common.sh"
+
 CLAUDE_BIN="${CLAUDE_BIN:-$HOME/.local/bin/claude}"
-MLX_SERVER="$HOME/.local/mlx-native-server/server.py"
-MLX_PYTHON="$HOME/.local/mlx-server/bin/python3"
-PROJECT_DIR="$(cd "$(dirname "$0")/.." && pwd)/NarrativeGemma"
+PROJECT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)/NarrativeGemma"
 COMBINED_PROMPT="/tmp/narrative_gemma_combined_prompt.md"
 
 # Override the model with: MLX_MODEL=<your-path-or-hf-id>
@@ -27,22 +28,12 @@ MLX_MODEL_DEFAULT="divinetribe/gemma-4-31b-it-abliterated-4bit-mlx"
   cat "$PROJECT_DIR/CLAUDE.md"
 } > "$COMBINED_PROMPT"
 
-# Always restart the MLX server in narrative mode so it picks up the
-# MLX_APPEND_SYSTEM_PROMPT_FILE env var. If we left a stale server
-# running from another launcher, narration rules wouldn't be loaded.
-if curl -sf http://localhost:4000/health >/dev/null 2>&1; then
-  echo "  Stopping existing MLX server to load narration rules..."
-  pkill -f "mlx-native-server/server.py" 2>/dev/null
-  sleep 2
-fi
-
+# Always restart the MLX server so it picks up the MLX_APPEND_SYSTEM_PROMPT_FILE
+# env var. Env vars can only be applied at process start, so even if Gemma is
+# already running we need a fresh process with this var in its environment.
 export MLX_APPEND_SYSTEM_PROMPT_FILE="$COMBINED_PROMPT"
-MLX_MODEL="${MLX_MODEL:-$MLX_MODEL_DEFAULT}" \
-  "$MLX_PYTHON" "$MLX_SERVER" >/tmp/mlx-server.log 2>&1 &
-echo "  Loading Gemma 4 31B Abliterated with narration rules..."
-while ! curl -s http://localhost:4000/health 2>/dev/null | grep -q "ok"; do
-  sleep 2
-done
+force_restart_mlx_server "${MLX_MODEL:-$MLX_MODEL_DEFAULT}" \
+  "  Loading Gemma 4 31B Abliterated with narration rules..."
 
 clear
 echo ""

@@ -4,17 +4,18 @@
 #
 # Override the model with: MLX_MODEL=mlx-community/<model-id>
 
-MLX_PYTHON="$HOME/.local/mlx-server/bin/python3"
-MLX_SERVER="$HOME/.local/mlx-native-server/server.py"
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+source "$SCRIPT_DIR/lib/claude-local-common.sh"
+
 AGENT="$HOME/.local/browser-agent/agent.py"
 MODEL_NAME="${MLX_MODEL_LABEL:-Gemma 4 31B}"
+MLX_MODEL_DEFAULT="divinetribe/gemma-4-31b-it-abliterated-4bit-mlx"
 
-# Start MLX server if not running
-if ! lsof -i :4000 >/dev/null 2>&1; then
-  echo "  Loading $MODEL_NAME..."
-  MLX_BROWSER_MODE=1 "$MLX_PYTHON" "$MLX_SERVER" >/tmp/mlx-server.log 2>&1 &
-  while ! curl -s http://localhost:4000/health 2>/dev/null | grep -q "ok"; do sleep 2; done
-fi
+# Browser mode: force-restart so MLX_BROWSER_MODE=1 is picked up even if a
+# non-browser-mode server is already running.
+export MLX_BROWSER_MODE=1
+force_restart_mlx_server "${MLX_MODEL:-$MLX_MODEL_DEFAULT}" \
+  "  Loading $MODEL_NAME in browser mode..."
 
 # Start Brave with remote debugging
 if ! lsof -i :9222 >/dev/null 2>&1; then

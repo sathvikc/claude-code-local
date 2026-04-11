@@ -5,19 +5,19 @@
 #
 # Override the model with: MLX_MODEL=mlx-community/<model-id>
 
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+source "$SCRIPT_DIR/lib/claude-local-common.sh"
+
 CLAUDE_BIN="${CLAUDE_BIN:-$HOME/.local/bin/claude}"
-MLX_SERVER="$HOME/.local/mlx-native-server/server.py"
-MLX_PYTHON="$HOME/.local/mlx-server/bin/python3"
 MODEL_NAME="${MLX_MODEL_LABEL:-Gemma 4 31B}"
 
-# Start MLX server if not running
-if ! lsof -i :4000 >/dev/null 2>&1; then
-  "$MLX_PYTHON" "$MLX_SERVER" >/tmp/mlx-server.log 2>&1 &
-  echo "  Loading $MODEL_NAME on MLX..."
-  while ! curl -s http://localhost:4000/health 2>/dev/null | grep -q "ok"; do
-    sleep 2
-  done
-fi
+# Default model matches server.py's default so this launcher behaves like
+# "the easy button." Override with MLX_MODEL=... before double-clicking, or
+# use the model-specific launchers for Llama/Qwen.
+MLX_MODEL_DEFAULT="divinetribe/gemma-4-31b-it-abliterated-4bit-mlx"
+
+ensure_mlx_server "${MLX_MODEL:-$MLX_MODEL_DEFAULT}" \
+  "  Loading $MODEL_NAME on MLX..."
 
 clear
 echo ""

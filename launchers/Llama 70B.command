@@ -5,24 +5,18 @@
 # THE WISE ONE — ~7 tok/s, ~70 GB RAM, full 8-bit precision, abliterated.
 # Slower but the most capable reasoning in the lineup. Needs 96+ GB unified memory.
 
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+source "$SCRIPT_DIR/lib/claude-local-common.sh"
+
 CLAUDE_BIN="${CLAUDE_BIN:-$HOME/.local/bin/claude}"
-MLX_SERVER="$HOME/.local/mlx-native-server/server.py"
-MLX_PYTHON="$HOME/.local/mlx-server/bin/python3"
 
 # Default points at our own abliterated MLX upload:
 #   https://huggingface.co/divinetribe/Llama-3.3-70B-Instruct-abliterated-8bit-mlx
 # Override with MLX_MODEL=<your-path-or-hf-id>
 MLX_MODEL_DEFAULT="divinetribe/Llama-3.3-70B-Instruct-abliterated-8bit-mlx"
 
-# Start MLX server if not running
-if ! lsof -i :4000 >/dev/null 2>&1; then
-  MLX_MODEL="${MLX_MODEL:-$MLX_MODEL_DEFAULT}" \
-  "$MLX_PYTHON" "$MLX_SERVER" >/tmp/mlx-server.log 2>&1 &
-  echo "  Loading Llama 3.3 70B Abliterated on MLX (~7 tok/s, 8-bit full precision)..."
-  while ! curl -s http://localhost:4000/health 2>/dev/null | grep -q "ok"; do
-    sleep 2
-  done
-fi
+ensure_mlx_server "${MLX_MODEL:-$MLX_MODEL_DEFAULT}" \
+  "  Loading Llama 3.3 70B Abliterated on MLX (~7 tok/s, 8-bit full precision)..."
 
 clear
 echo ""
