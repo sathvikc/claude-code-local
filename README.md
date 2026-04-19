@@ -68,13 +68,16 @@
 
 > ## 🧩 You're looking at the **BRAIN** of a three-repo local-first ambient-computing stack
 >
-> Pair it with its sibling repos for the full experience:
+> Three repos, one Mac. Pair them for the full experience:
 >
-> | 🤖 **THIS REPO** | 🎤 **NarrateClaude** | 🌐 **browser-agent** |
-> |:---:|:---:|:---:|
-> | **BRAIN** | **EARS + MOUTH** | **HANDS** |
-> | Runs local AI (Gemma / Llama / Qwen) + Claude Code | Talk to it, hear it in your cloned voice — 100% on-device | Drives a real Brave browser via Chrome DevTools |
-> | *You are here* 👈 | 🔗 [**github.com/nicedreamzapp/NarrateClaude**](https://github.com/nicedreamzapp/NarrateClaude) | 🔗 [**github.com/nicedreamzapp/browser-agent**](https://github.com/nicedreamzapp/browser-agent) |
+> **🤖 BRAIN · `claude-code-local`** *(this repo — you are here 👈)*
+> Runs local AI (Gemma / Llama / Qwen) + Claude Code, fully on-device.
+>
+> **🎤 EARS + MOUTH · [`NarrateClaude`](https://github.com/nicedreamzapp/NarrateClaude)**
+> Talk to it, hear replies in your cloned voice — both directions on-device.
+>
+> **🌐 HANDS · [`browser-agent`](https://github.com/nicedreamzapp/browser-agent)**
+> Drives a real Brave browser via Chrome DevTools Protocol — handles iframes, Shadow DOM, ProseMirror.
 >
 > 👉 **[See how all three fit together below](#-the-complete-local-first-stack)**
 >
@@ -86,31 +89,18 @@
 
 We started with one model. Now we ship a **roster**. Same MLX server, same Anthropic API, swap one env var and you swap the brain.
 
-```
-   ╔══════════════════════╦═══════════════════════╦══════════════════════╗
-   ║  🟢 GEMMA 4 31B      ║   🟠 LLAMA 3.3 70B    ║  🔵 QWEN 3.5 122B    ║
-   ║   ABLITERATED        ║    ABLITERATED        ║    A10B MoE          ║
-   ║  ──────────────────  ║  ───────────────────  ║  ──────────────────  ║
-   ║   THE QUICK ONE      ║    THE WISE ONE       ║    THE BEAST         ║
-   ║                      ║                       ║                      ║
-   ║  Speed   ~15 tok/s   ║  Speed   ~7 tok/s     ║  Speed  65 tok/s 🚀  ║
-   ║  Params  31 B dense  ║  Params  71 B dense   ║  Params 122 B / 10B  ║
-   ║  Quant   4-bit IT    ║  Quant   8-bit affine ║  Quant  4-bit MoE    ║
-   ║  RAM     ~18 GB      ║  RAM     ~75 GB       ║  RAM    ~75 GB       ║
-   ║  Disk    18 GB       ║  Disk    75 GB        ║  Disk   65 GB        ║
-   ║                      ║                       ║                      ║
-   ║                      ║  ⭐ Uploaded by us!    ║                      ║
-   ║                      ║                       ║                      ║
-   ║  🎯 Daily coding     ║  🎯 Hardest reasoning ║  🎯 Max throughput   ║
-   ║  💪 Fits 64 GB Mac   ║  💪 Full precision    ║  💪 Active sparsity  ║
-   ╚══════════════════════╩═══════════════════════╩══════════════════════╝
-```
-
-| Pick This Model | If You Want… | Min RAM | Launcher |
-|---|---|:---:|---|
-| 🟢 **Gemma 4 31B** | Daily coding, low RAM, fast loop | 32 GB | `Gemma 4 Code.command` |
-| 🟠 **Llama 3.3 70B** ⭐ | Hardest reasoning at full 8-bit precision | 96 GB | `Llama 70B.command` |
-| 🔵 **Qwen 3.5 122B** | Max tok/s, biggest brain | 96 GB | `Claude Local.command` |
+| | 🟢 **Gemma 4 31B** | 🟠 **Llama 3.3 70B** ⭐ | 🔵 **Qwen 3.5 122B** |
+|---|:---:|:---:|:---:|
+| Nickname | The Quick One | The Wise One | The Beast |
+| Build | 4-bit IT abliterated | 8-bit affine abliterated | 4-bit MoE (A10B) |
+| Speed | ~15 tok/s | ~7 tok/s | **65 tok/s** 🚀 |
+| Params | 31 B dense | 71 B dense | 122 B / 10 B active |
+| RAM | ~18 GB | ~75 GB | ~75 GB |
+| Disk | 18 GB | 75 GB | 65 GB |
+| Best at | Daily coding, fits 64 GB Mac | Hardest reasoning, full precision | Max throughput, active sparsity |
+| Uploaded by us? | — | ⭐ Yes (HF) | — |
+| Launcher | `Gemma 4 Code.command` | `Llama 70B.command` | `Claude Local.command` |
+| Min RAM to run | 32 GB | 96 GB | 96 GB |
 
 > 💡 **Fun fact:** Qwen wins raw speed because it's an MoE — only 10B of 122B params activate per token. Llama 70B is the slowest *and* the smartest because it's full-precision dense weights. Gemma is the lightweight champ that fits where the others can't.
 
@@ -140,27 +130,6 @@ MLX_MODEL=divinetribe/Llama-3.3-70B-Instruct-abliterated-8bit-mlx \
 ## 🎮 The Modes
 
 Four ways to run the lineup. Each one is a double-clickable launcher in `launchers/`.
-
-```
-   ┌─────────────────────────────┬─────────────────────────────┐
-   │  🤖 CODE MODE               │  🌐 BROWSER MODE             │
-   │  ──────────                 │  ─────────────               │
-   │  Full Claude Code + local   │  Autonomous Brave agent      │
-   │  model. Same UX, no cloud.  │  via Chrome DevTools         │
-   │  → Claude Local.command     │  Protocol. Clicks, types,    │
-   │  → Gemma 4 Code.command     │  navigates iframes & Shadow  │
-   │  → Llama 70B.command        │  DOM with 0 cloud calls.     │
-   │                             │  → Browser Agent.command     │
-   ├─────────────────────────────┼─────────────────────────────┤
-   │  🎤 HANDS-FREE VOICE        │  📱 PHONE MODE               │
-   │  ─────────────              │  ────────────                │
-   │  Speak a question, hear     │  Text from your couch.       │
-   │  the reply in your own      │  iMessage in, code/video     │
-   │  cloned voice. STT + TTS    │  out. Full screen-record +   │
-   │  both 100% on-device.       │  send-back pipeline.         │
-   │  → Narrative Gemma.command  │  → ~/.claude/imessage-*.sh   │
-   └─────────────────────────────┴─────────────────────────────┘
-```
 
 | Mode | What it does | Launcher |
 |---|---|---|
@@ -284,24 +253,23 @@ Three generations of optimization. Each one got faster.
 
 ### ⚡ Speed Comparison
 
-```
-                         Tokens per Second
-  🐌 Ollama (Gen 1)      ██████████████████████████████ 30 tok/s
-  🏃 llama.cpp (Gen 2)   █████████████████████████████████████████ 41 tok/s
-  🚀 MLX Native (Gen 3)  ████████████████████████████████████████████████████████████████ 65 tok/s
-```
+| Generation | Approach | Speed |
+|---|---|---:|
+| 🐌 Gen 1 | Ollama | 30 tok/s |
+| 🏃 Gen 2 | llama.cpp | 41 tok/s |
+| 🚀 Gen 3 | **MLX Native (ours)** | **65 tok/s** |
 
 ### ⏱️ Real-World Claude Code Task
 
 How long to ask Claude Code to write a function:
 
-```
-  😴 Ollama + Proxy          ████████████████████████████████████████████ 133 seconds
-  😐 llama.cpp + Proxy       ████████████████████████████████████████████ 133 seconds
-  🔥 MLX Native (no proxy)   ██████ 17.6 seconds
+| Setup | Time |
+|---|---:|
+| 😴 Ollama + Proxy | 133 s |
+| 😐 llama.cpp + Proxy | 133 s |
+| 🔥 **MLX Native (no proxy)** | **17.6 s** |
 
-                              7.5x faster ⚡
-```
+> **7.5× faster ⚡** — one change (killing the proxy) produced the entire delta.
 
 ### 📋 Three-Generation Side-by-Side
 
