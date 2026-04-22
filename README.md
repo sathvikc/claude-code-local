@@ -15,7 +15,7 @@
     <a href="LICENSE"><img src="https://img.shields.io/badge/📜_License-MIT-yellow?style=for-the-badge" alt="MIT"></a>
   </p>
   <p align="center">
-    <em>Built by <a href="https://x.com/divinetribevape">Matt Macosko</a> in Arcata, CA. Started with a chicken problem. Still figuring it out.</em>
+    <em>Built by <a href="https://x.com/NiceDreamzApps">Matt Macosko</a> in Arcata, CA. Started with a chicken problem. Still figuring it out.</em>
   </p>
   <p align="center">
     <a href="#-watch-the-demo--airgap-ai">🎬 Demo</a> ·
@@ -815,7 +815,7 @@ If this repo is useful to you, here's the rest of the work:
 Find me:
 
 <p>
-  <a href="https://x.com/divinetribevape"><img src="https://img.shields.io/badge/X-@divinetribevape-000000?style=flat-square&logo=x&logoColor=white" alt="X"></a>
+  <a href="https://x.com/NiceDreamzApps"><img src="https://img.shields.io/badge/X-@NiceDreamzApps-000000?style=flat-square&logo=x&logoColor=white" alt="X"></a>
   <a href="https://www.linkedin.com/company/divine-tribe-vaporizers/"><img src="https://img.shields.io/badge/LinkedIn-Divine_Tribe-0A66C2?style=flat-square&logo=linkedin&logoColor=white" alt="LinkedIn"></a>
   <a href="https://www.youtube.com/@nicedreamzapps"><img src="https://img.shields.io/badge/YouTube-@nicedreamzapps-FF0000?style=flat-square&logo=youtube&logoColor=white" alt="YouTube"></a>
   <a href="https://github.com/nicedreamzapp"><img src="https://img.shields.io/badge/GitHub-@nicedreamzapp-181717?style=flat-square&logo=github&logoColor=white" alt="GitHub"></a>
