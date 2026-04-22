@@ -798,6 +798,32 @@ Tested on **Apple M5 Max** with **128 GB unified memory**.
 
 ---
 
+## 👋 Who built this
+
+Built by Matt Macosko in Arcata, CA. All of this is part of the **[Nice Dreamz LLC](https://nicedreamzwholesale.com)** umbrella — the consulting + open-source side of what I do day-to-day.
+
+If this repo is useful to you, here's the rest of the work:
+
+| | |
+|---|---|
+| 🔒 **[AirGap AI](https://nicedreamzwholesale.com/airgap/)** | Private, on-device AI consulting for law firms, accountants, doctors, therapists — anyone handling other people's confidential work. Book a 15-min call. |
+| 🖥️ **[Nice Dreamz Software](https://nicedreamzwholesale.com/software/)** | The rest of the open-source lineup — NarrateClaude, the browser agent, CemaniHomesteadRobot, VisionBuilder, and more. |
+| 🌿 **[Divine Tribe](https://ineedhemp.com)** | The hardware side — Core XL, V5, Ruby Twist. 13 years of building physical products. |
+| 📰 **[Marijuana Union](https://marijuanaunion.com)** | Community + news site. Where the long-form writing lives. |
+| 🌱 **[Tribe Seed Bank](https://tribeseedbank.com)** | Seeds marketplace. |
+
+Find me:
+
+<p>
+  <a href="https://x.com/divinetribevape"><img src="https://img.shields.io/badge/X-@divinetribevape-000000?style=flat-square&logo=x&logoColor=white" alt="X"></a>
+  <a href="https://www.linkedin.com/company/divine-tribe-vaporizers/"><img src="https://img.shields.io/badge/LinkedIn-Divine_Tribe-0A66C2?style=flat-square&logo=linkedin&logoColor=white" alt="LinkedIn"></a>
+  <a href="https://www.youtube.com/@nicedreamzapps"><img src="https://img.shields.io/badge/YouTube-@nicedreamzapps-FF0000?style=flat-square&logo=youtube&logoColor=white" alt="YouTube"></a>
+  <a href="https://github.com/nicedreamzapp"><img src="https://img.shields.io/badge/GitHub-@nicedreamzapp-181717?style=flat-square&logo=github&logoColor=white" alt="GitHub"></a>
+  <a href="https://www.instagram.com/divinetribevaporizers/"><img src="https://img.shields.io/badge/Instagram-@divinetribevaporizers-E4405F?style=flat-square&logo=instagram&logoColor=white" alt="Instagram"></a>
+</p>
+
+---
+
 <p align="center">
   <strong>📜 MIT License</strong> — Use it however you want.<br><br>
   ⭐ <strong>Star this repo if it helped you!</strong> ⭐<br><br>
