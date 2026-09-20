@@ -33,6 +33,8 @@ curl -fsSL https://raw.githubusercontent.com/nicedreamzapp/claude-code-local/mai
 
 That's it. It even works on a **16 GB MacBook**, and gets better the more memory your Mac has.
 
+Once it's running, [the local-first family](#-the-local-first-family) takes it off the keyboard: your browser, your voice, your phone, all on the same machine.
+
 ---
 
 ## 🌊 Use it with Trinidad Head
@@ -218,6 +220,25 @@ Each one is a double-click launcher in [`launchers/`](launchers/).
 
 ---
 
+## 🧩 The local-first family
+
+The modes above aren't bolted on. Each one is its own repo that works on its own, and they all run
+on your hardware. If Claude Code on your own Mac was the part you wanted, this is the rest of it.
+
+| | Project | What it does |
+|---|---|---|
+| 🌊 | **[Trinidad Head](https://github.com/nicedreamzapp/trinidad-head)** | The terminal to run it all in, on Mac and PC |
+| 🎤 | [NarrateClaude](https://github.com/nicedreamzapp/NarrateClaude) | Talk to Claude and hear it answer in your cloned voice |
+| 🌐 | [browser-agent](https://github.com/nicedreamzapp/browser-agent) | Drives your real browser |
+| 🚦 | [browser-broker](https://github.com/nicedreamzapp/browser-broker) | Gives each AI agent its own browser tab so nobody fights |
+| 📱 | [claude-screen-to-phone](https://github.com/nicedreamzapp/claude-screen-to-phone) | Control Claude Code from your iPhone |
+| 🛟 | [claude-failover](https://github.com/nicedreamzapp/claude-failover) | Keep cloud Claude first, flip to local with one command |
+| 👁️ | [nemotron-omni-mlx](https://github.com/nicedreamzapp/nemotron-omni-mlx) | NVIDIA's tri-modal Nemotron seeing and hearing on Apple Silicon. The only open MLX runtime for its vision and audio towers, 23/23 parity tests against NVIDIA's own reference |
+| 🏁 | [Agent-12](https://github.com/nicedreamzapp/agent12) | The open leaderboard the model table above is scored on. Filesystem-judged, no AI grader |
+| 🎬 | [story-forge](https://github.com/nicedreamzapp/story-forge) | A finished animated film on one Mac. Stills, motion, voices, music, sound, no cloud |
+
+---
+
 ## 🔒 Your code stays home
 
 **Your code never leaves your Mac.** No cloud model, no tracking, no "anonymous analytics".
@@ -250,21 +271,6 @@ CLAUDE_CODE_DISABLE_BACKGROUND_TASKS=1
 | 📊 [Benchmarks](docs/BENCHMARKS.md) · 🔧 [Tool-call reliability](docs/TOOL-CALL-RELIABILITY.md) | The numbers and how they were measured |
 | 🎤 [Voice mode](docs/VOICE-MODE.md) · 🌐 [Browser agent](docs/BROWSER-AGENT.md) · 📱 [Phone control](docs/PHONE-CONTROL.md) · 🔌 [MCP servers](docs/MCP-SERVERS.md) | Everything the launchers can do |
 | 📁 [What's in this repo](docs/REPO-LAYOUT.md) · 🙏 [Credits](docs/CREDITS.md) | The tour and the thank-yous |
-
----
-
-## 🧩 The local-first family
-
-Each one works on its own. Together they take Claude Code off the keyboard and off the screen.
-
-| | Project | What it does |
-|---|---|---|
-| 🌊 | **[Trinidad Head](https://github.com/nicedreamzapp/trinidad-head)** | The terminal to run it all in, on Mac and PC |
-| 🎤 | [NarrateClaude](https://github.com/nicedreamzapp/NarrateClaude) | Talk to Claude and hear it answer in your cloned voice |
-| 🌐 | [browser-agent](https://github.com/nicedreamzapp/browser-agent) | Drives your real browser |
-| 🚦 | [browser-broker](https://github.com/nicedreamzapp/browser-broker) | Gives each AI agent its own browser tab so nobody fights |
-| 📱 | [claude-screen-to-phone](https://github.com/nicedreamzapp/claude-screen-to-phone) | Control Claude Code from your iPhone |
-| 🛟 | [claude-failover](https://github.com/nicedreamzapp/claude-failover) | Keep cloud Claude first, flip to local with one command |
 
 ---
 
